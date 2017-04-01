@@ -19,7 +19,7 @@ Plugin.extend({
 			jQuery.each(data.questions, function(key, value) {
 				if (Math.round(iNow) == value.sec) {
 					jQuery("#custom-message").show();
-				jQuery('#custom-message').html('<div class="ui form">  <div class="grouped fields">    <label>How often do you use checkboxes?</label>    <div class="field">      <div class="ui radio checkbox">        <input type="radio" name="example2" checked="checked">        <label>Once a week</label>      </div>    </div>    <div class="field">      <div class="ui radio checkbox">        <input type="radio" name="example2">        <label>Once a day</label>      </div>    </div> </div><button class="ui button" id="videocover">Submit</button></div>');
+				jQuery('#custom-message').html('<div class="ui form"> '+ value.data.name +'</div><button class="ui button" id="videocover">Submit</button></div>');
 				video.pause();
 				var elem = document.getElementById('videocover');
 				elem.addEventListener('click', function(event) {
