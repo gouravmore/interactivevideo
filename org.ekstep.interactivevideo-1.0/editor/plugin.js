@@ -7,22 +7,25 @@ EkstepEditor.basePlugin.extend({
         if (this.editorObj) this.editorObj.setStroke(props.stroke);
     },
     onConfigChange: function(key, value) {
-		console.log(value);
-		console.log(key);
         var instance = EkstepEditorAPI.getCurrentObject();
-        var editorObj = instance.editorObj
+        var editorObj = instance.editorObj;
         switch (key) {
             case 'questions':
-                for () {
-                    this.data.questions.push
-                }
-				this.data.questions = EkstepEditorAPI.getService('assessment').getItem('do_1122146810356531201168', function(err, resp) {
-                    console.log(resp.data.result.assessment_item.options);
-                });
-				break;
+				var data = [];
+				jQuery.each(value, function( key, value ) {
+					var queObj = {};
+                    queObj.sec = value.sec;
+                    queObj.identifier = value.identifier;
+
+					EkstepEditorAPI.getService('assessment').getItem(value.identifier, function(err, resp) {
+						queObj.data = resp.data.result.assessment_item;
+						data.push(queObj);
+						instance.attributes.questions = data;
+					});
+				});
 
 			case 'video':
-				this.data.video = value;
+				instance.attributes.video = value;
 				break;
         }
         EkstepEditorAPI.render();
