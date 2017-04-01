@@ -3,7 +3,7 @@ EkstepEditor.basePlugin.extend({
     },
     newInstance: function() {
         var props = this.convertToFabric(this.attributes);
-        this.editorObj = new fabric.Rect({ top: 5, left: 20, width: 600, height: 380, fill: '#f55' });
+        this.editorObj = new fabric.Rect({ top: 5, left: 20, width: 600, height: 380, fill: '#999999' });
         if (this.editorObj) this.editorObj.setStroke(props.stroke);
     },
     onConfigChange: function(key, value) {
