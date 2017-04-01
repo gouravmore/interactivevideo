@@ -1,0 +1,42 @@
+{
+    "id": "interactivevideo",
+    "ver": "1.0",
+    "author": "",
+    "type": "widget",
+    "title": "interactivevideo Plugin",
+    "description": "",
+    "publishedDate": "",
+    "editor": {
+        "main": "editor/plugin.js",
+        "dependencies": [
+            {
+                "type": "plugin",
+                "plugin": "org.ekstep.colorpicker",
+                "ver": "1.0"
+            }
+        ],
+        "menu": [],
+        "help": {
+            "src": "editor/help.md",
+            "dataType": "text"
+        },
+        "configManifest": [{
+            "propertyName": "video",
+            "title": "Video Link",
+            "description": "Add video link",
+            "dataType": "input",
+            "valueType":"text",
+            "required": true
+        },{
+            "propertyName": "questions",
+            "title": "Questions",
+            "description": "Add Questions",
+            "dataType": "input",
+            "valueType":"text",
+            "required": true
+        }]
+    },
+    "renderer": {
+        "main": "renderer/plugin.js"
+    }
+}
