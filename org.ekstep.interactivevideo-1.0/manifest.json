@@ -1,5 +1,5 @@
 {
-    "id": "interactivevideo",
+    "id": "org.ekstep.interactivevideo",
     "ver": "1.0",
     "author": "",
     "type": "widget",
@@ -8,13 +8,7 @@
     "publishedDate": "",
     "editor": {
         "main": "editor/plugin.js",
-        "dependencies": [
-            {
-                "type": "plugin",
-                "plugin": "org.ekstep.colorpicker",
-                "ver": "1.0"
-            }
-        ],
+        "dependencies": [],
         "menu": [],
         "help": {
             "src": "editor/help.md",
@@ -31,7 +25,7 @@
             "propertyName": "questions",
             "title": "Questions",
             "description": "Add Questions",
-            "dataType": "input",
+            "dataType": "textarea",
             "valueType":"text",
             "required": true
         }]

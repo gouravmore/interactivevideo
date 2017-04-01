@@ -4,10 +4,11 @@ Plugin.extend({
     _render: true,
     initPlugin: function(data) {
         var qData = JSON.parse(data.config.__cdata);
+        console.log(data);
 
-		jQuery.each( qData.questions, function( key, value ) {
-		  alert( key + ": " + value );
-		});
+		// jQuery.each( qData.questions, function( key, value ) {
+		//   alert( key + ": " + value );
+		// });
 
 		var parentDiv = document.getElementById(Renderer.divIds.gameArea);
         var div = document.getElementById("testDiv");

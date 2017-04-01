@@ -13,12 +13,15 @@ EkstepEditor.basePlugin.extend({
         var editorObj = instance.editorObj
         switch (key) {
             case 'questions':
-				this.config.title = value;
-				this.data.Quesions = value;
+                for () {
+                    this.data.questions.push
+                }
+				this.data.questions = EkstepEditorAPI.getService('assessment').getItem('do_1122146810356531201168', function(err, resp) {
+                    console.log(resp.data.result.assessment_item.options);
+                });
 				break;
 
 			case 'video':
-				this.config.title = value;
 				this.data.video = value;
 				break;
         }
