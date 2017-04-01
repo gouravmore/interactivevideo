@@ -12,7 +12,7 @@ EkstepEditor.basePlugin.extend({
         switch (key) {
             case 'questions':
 				var data = [];
-				jQuery.each(value, function( key, value ) {
+				jQuery.each(JSON.parse(value), function( key, value ) {
 					var queObj = {};
                     queObj.sec = value.sec;
                     queObj.identifier = value.identifier;
