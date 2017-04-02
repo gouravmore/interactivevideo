@@ -12,12 +12,12 @@ EkstepEditor.basePlugin.extend({
         switch (key) {
             case 'questions':
 				var data = [];
-				jQuery.each(JSON.parse(value), function( key, value ) {
+				jQuery.each(JSON.parse(value), function( key, val ) {
 					var queObj = {};
-                    queObj.sec = value.sec;
-                    queObj.identifier = value.identifier;
+                    queObj.sec = val.sec;
+                    queObj.identifier = val.identifier;
 
-					EkstepEditorAPI.getService('assessment').getItem(value.identifier, function(err, resp) {
+					EkstepEditorAPI.getService('assessment').getItem(val.identifier, function(err, resp) {
 						queObj.data = resp.data.result.assessment_item;
 						data.push(queObj);
 						instance.attributes.questions = data;
@@ -28,6 +28,7 @@ EkstepEditor.basePlugin.extend({
 				instance.attributes.video = value;
 				break;
         }
+
         EkstepEditorAPI.render();
         EkstepEditorAPI.dispatchEvent('object:modified', { target: EkstepEditorAPI.getEditorObject() });
     }
