@@ -45,7 +45,7 @@ Plugin.extend({
 			    		html.push('<li><input type="radio" id="option'+val.value.resindex+'" name="interactivevideo-question" value="'+val.value.resvalue+'"><label for="option'+val.value.resindex+'">'+val.value.text+'</label><div class="check"></div></li>');
 			    	});
 			    	html.push('</ul>');
-			    	html.push('<p><button id="" class="button">Submit</button></p>');
+			    	html.push('<p><button id="videocover" class="button">Submit</button></p>');
 			    	html.push('</div></div>');
 
 					jQuery('#custom-message').html(html.join(''));
