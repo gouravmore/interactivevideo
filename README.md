@@ -18,3 +18,5 @@ Add the JSON to indicate the points in your video when questions are shown. The 
 ```
 
 This is an array of objects that contains the second and the corresponding question that is shown at that second. In the above example, the question with identifier `do_1122153324231884801176` will be shown at the 6th second, and so on.
+
+A future version of the plugin will provide a UI for doing this. 
