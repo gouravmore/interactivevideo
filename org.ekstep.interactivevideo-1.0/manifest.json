@@ -18,7 +18,7 @@
             "type": "icon",
             "toolTip": "Add interactivevideo",
             "title": "Question Set",
-            "iconClass": "icon-questions icon",
+            "iconClass": "video play outline icon",
             "onclick": {
                 "id": "org.ekstep.interactivevideo:showPopup"
             }
