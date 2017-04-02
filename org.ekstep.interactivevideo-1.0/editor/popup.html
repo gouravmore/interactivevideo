@@ -1,5 +1,7 @@
 <script type="text/ng-template" id="partials_org.ekstep.interactivevideo.html">
+	<!-- Step for add interactive video-->
 	<div class="ui three top attached steps">
+	   <!-- First step for add video-->
 	  <div class="{{isUploadVideo ? 'active': ''}} step">
 		<i class="film icon"></i>
 		<div class="content">
@@ -7,6 +9,7 @@
 		  <div class="description">Insert your video link</div>
 		</div>
 	  </div>
+	  <!-- Sencond step for add qustion to video-->
 	  <div class="{{!isUploadVideo ? 'active': ''}} step">
 		<i class="browser icon"></i>
 		<div class="content">
@@ -14,6 +17,8 @@
 		  <div class="description">Select your question</div>
 		</div>
 	  </div>
+
+	  <!-- 3rd step to show done the process-->
 	  <div class="step">
 		<i class="youtube play icon"></i>
 		<div class="content">
@@ -22,7 +27,9 @@
 		</div>
 	  </div>
 	</div>
-	<div class="ui form" id="colInviteForm">
+	<!-- Form to get interactive video data-->
+	<div class="ui form">
+		<!-- First step to add/uplpad video link-->
 		<div ng-show="isUploadVideo" class="filters-container">
 			<div class="field">
 				<div class="ui center aligned basic segment">
@@ -39,6 +46,7 @@
 				</div>
 			</div>
 		</div>
+		<!-- Second step to insert questions-->
 		<div ng-show="!isUploadVideo" class="filters-container">
 			<div class="ui grid">
 			  <div class="five wide column">
@@ -70,6 +78,7 @@
 			</div>
 		</div>
 	</div>
+	<!-- Action buttons-->
 	<div class="actions">
 		<div class="ui grid">
 			<div class="wide column right aligned">

@@ -1,15 +1,42 @@
+/**
+ *
+ * plugin to add interactive video to stage
+ * @class interactivevideo
+ * @extends EkstepEditor.basePlugin
+ * @author Gourav/Ashwin <gourav_m@tekditechnologies.com>
+ * @fires org.ekstep.interactivevideo:show
+ * @listens org.ekstep.interactivevideo:showPopup
+ */
 EkstepEditor.basePlugin.extend({
+	/**
+     *
+     * Registers events.
+     * @memberof interactivevideo
+     */
     initialize: function() {
 		var templatePath = EkstepEditorAPI.resolvePluginResource(this.manifest.id, this.manifest.ver, "editor/popup.html");
 		EkstepEditorAPI.getService('popup').loadNgModules(templatePath);
 		EkstepEditorAPI.addEventListener(this.manifest.id + ":showPopup", this.openInteractivevideoBrowser, this);
     },
+    /**
+     *
+     * Registers events.
+     * @memberof interactivevideo
+     */
     newInstance: function() {
-		//this.openInteractivevideoBrowser(this);
+		/**Create object on stage**/
         var props = this.convertToFabric(this.attributes);
         this.editorObj = new fabric.Rect({ top: 5, left: 20, width: 600, height: 380, fill: '#999999' });
         if (this.editorObj) this.editorObj.setStroke(props.stroke);
     },
+    /**
+     *
+     * Get triggerd on config change
+     * @param key {Object} key of config
+     * @param value {Object} data of config
+     * @memberof interactivevideo
+     *
+     */
     onConfigChange: function(key, value) {
         var instance = EkstepEditorAPI.getCurrentObject();
         var editorObj = instance.editorObj;
@@ -39,8 +66,8 @@ EkstepEditor.basePlugin.extend({
     },
     /**
      *
-     * open assessment browser to get assessment data.
-     * @memberof assessment
+     * open interactivevideo popup to get interactivevideo data.
+     * @memberof interactivevideo
      *
      */
     openInteractivevideoBrowser: function(event, callback) {
@@ -63,6 +90,12 @@ EkstepEditor.basePlugin.extend({
 			className: 'ngdialog-theme-default'
 		});
     },
+    /**
+     *
+     * Play function to play video inside interactivevideo popup.
+     * @memberof interactivevideo
+     *
+     */
     play: function(){
 		var $oVideo = jQuery('video');
 		$oVideo.get(0).play();
@@ -71,6 +104,12 @@ EkstepEditor.basePlugin.extend({
 			var iNow = video.currentTime;
 		});
 	},
+	/**
+     *
+     * pause function to pause video inside interactivevideo popup.
+     * @memberof interactivevideo
+     *
+     */
 	pause: function(){
 		var $oVideo = jQuery('video');
 		$oVideo.get(0).pause();
@@ -79,16 +118,34 @@ EkstepEditor.basePlugin.extend({
 			var iNow = video.currentTime;
 		});
 	},
+	/**
+     *
+     * add function to add question to video inside popup.
+     * @memberof interactivevideo
+     *
+     */
 	add: function(){
 		var $oVideo = jQuery('video');
 		var iNow = $oVideo.currentTime();
 		alert(iNow);
 	},
+	/**
+     *
+     * next function to switch next step to add interactivevideo.
+     * @memberof interactivevideo
+     *
+     */
 	next: function(){
 		var instance = this;
 		instance.isUploadVideo = false;
 		EkstepEditorAPI.ngSafeApply(EkstepEditorAPI.getAngularScope());
 	},
+	/**
+     *
+     * Done function to add interactive video to stage.
+     * @memberof interactivevideo
+     *
+     */
 	done: function(){
 		var instance = EkstepEditorAPI.getCurrentObject();
         var editorObj = instance.editorObj;

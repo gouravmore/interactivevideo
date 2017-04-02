@@ -2,23 +2,30 @@ Plugin.extend({
     _type: 'interactivevideo',
     _isContainer: false,
     _render: true,
+    /**init plugin data**/
     initPlugin: function(data) {
+
+		/**check video src is available**/
     	if (typeof(data.video) != 'string') {
     		console.log('Video not defined');
     		console.log(data.video);
     		return false;
     	}
 
+		/**check question data is available**/
     	if (typeof(data.questions) != 'object') {
     		console.log('Questions not defined');
     		console.log(data.questions);
     		return false;
     	}
 
+		/**Get parent div of canvas**/
 		var parentDiv = document.getElementById(Renderer.divIds.gameArea);
         var div = document.getElementById("testDiv");
         div = document.createElement('div');
         div.style.width = "100%";
+
+        /**create html for video**/
         var videohtml = [];
         videohtml.push('<div id="container" align="center">');
         videohtml.push('<video style="position:relative; z-index:-1;" width="570" height="325" autoplay>');
@@ -28,11 +35,14 @@ Plugin.extend({
         videohtml.push('</div>');
         div.innerHTML = videohtml.join('');
 
+		/**Append html to parrent div**/
         parentDiv.insertBefore(div, parentDiv.childNodes[0]);
         this._self = new createjs.DOMElement(div);
 
+		/**Get Data from Questions object**/
         var timer = data.questions;
 
+		/**Remove data and identifier from Questions object**/
 		for (var key in timer) {
 			if (timer[key] == 'data') {
 				timer.splice(key, 1);
@@ -42,26 +52,38 @@ Plugin.extend({
 			}
 		}
 
+		/**Get video html**/
 		var $oVideo = jQuery('video');
+
+		/**Set flag play/pause video**/
 		var flag = false;
-		var a = '';
+
+		/**Use temperary variable to avoid time conflicts**/
+		var temp = '';
+
+		/**Triggerd timeupdate to get current time of video**/
         $oVideo.bind('timeupdate', function() {
 			var video = $(this).get(0);
 			var iNow = video.currentTime;
+
+			/**Check for video and quetion time**/
 			jQuery.each(timer, function(key, value) {
 				if (typeof(value.data.question) != 'string') {
 					console.log("Invalid question identifier : " + identifier);
 					return false;
 				}
 
-				if(a != Math.round(iNow))
+				/**If it is new then set flag to false**/
+				if(temp != Math.round(iNow))
 				{
 					flag =false;
 				}
 
+				/**check for current video time and question display time and also check flag**/
 				if (Math.round(iNow) == value.sec && !flag) {
 					jQuery("#interactivevideo-question-container").show();
 
+					/**Create Html for questions**/
 			    	var html = [];
 			    	html.push('<div class="ui-form"><div class="grouped-fields">');
 			    	html.push('<p>' + value.data.question + '</p>');
@@ -75,15 +97,21 @@ Plugin.extend({
 
 					jQuery('#interactivevideo-question-container').html(html.join(''));
 
+					/**Video pause for show questions**/
 					video.pause();
+
+					/**Add Event for submit question**/
 					var elem = document.getElementById('videocover');
 					elem.addEventListener('click', function(event) {
 						var video = $("video").get(0);
+
+						/**Play video after submitting answer and hide question**/
 						video.play();
 						jQuery("#interactivevideo-question-container").hide();
 
+						/**Set flag and current data**/
 						flag = true;
-						a = Math.round(iNow);
+						temp = Math.round(iNow);
 						return false;
 					});
 				}
@@ -91,6 +119,7 @@ Plugin.extend({
 		});
     },
 
+	/**Build Questions from data**/
     _buildQuestion: function(question) {
     	console.log(question);
     	var html = [];
@@ -105,10 +134,5 @@ Plugin.extend({
     	html.push('<p><button class="button">Submit</button></p>');
 
     	return html.join('');
-    },
-
-    drawBorder: function() {
-
     }
-
 });
