@@ -8,10 +8,6 @@
     "publishedDate": "",
     "editor": {
         "main": "editor/plugin.js",
-        "dependencies": [
-            {"type": "plugin", "plugin": "org.ekstep.assessmentbrowser", "ver": "1.0"},
-            { "type": "css", "src": "editor/assets/css/interactivevideo.css" }
-        ],
         "menu": [],
         "help": {
             "src": "editor/help.md",
@@ -34,6 +30,9 @@
         }]
     },
     "renderer": {
-        "main": "renderer/plugin.js"
+        "main": "renderer/plugin.js",
+        "dependencies": [
+            { "type": "css", "src": "renderer/assets/css/interactivevideo.css" }
+        ]
     }
 }
