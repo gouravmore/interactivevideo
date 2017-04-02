@@ -90,7 +90,6 @@ Plugin.extend({
 			    	html.push('<p>' + value.data.question + '</p>');
 			    	html.push('<ul>');
 			    	jQuery.each(value.data.options, function(key, val) {
-			    		console.log(val);
 			    		html.push('<li><input type="radio" id="option'+val.value.resindex+'" name="interactivevideo-question" value="'+ ((typeof(val.answer) != 'undefined') ? 1 : 0) +'"><label for="option'+val.value.resindex+'">'+val.value.text+'</label><div class="check"></div></li>');
 			    	});
 			    	html.push('</ul>');
@@ -107,7 +106,7 @@ Plugin.extend({
 					jQuery('#interactivevideo-submit').on('click', function(event) {
 						var video = $("video").get(0);
 						var selected_answer = jQuery("input[name='interactivevideo-question']:checked").val();
-						console.log(selected_answer);
+
 						if (selected_answer == 1) {
 							video.play();
 							jQuery("#interactivevideo-question-container").hide();
