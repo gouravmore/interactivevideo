@@ -12,7 +12,17 @@
             {"type": "plugin", "plugin": "org.ekstep.assessmentbrowser", "ver": "1.0"},
             { "type": "css", "src": "editor/assets/css/interactivevideo.css" }
         ],
-        "menu": [],
+        "menu": [{
+            "id": "interactivevideo",
+            "category": "main",
+            "type": "icon",
+            "toolTip": "Add interactivevideo",
+            "title": "Question Set",
+            "iconClass": "icon-questions icon",
+            "onclick": {
+                "id": "org.ekstep.interactivevideo:showPopup"
+            }
+        }],
         "help": {
             "src": "editor/help.md",
             "dataType": "text"
