@@ -1,8 +1,7 @@
 'use strict';
 
 describe('Interactivevideo plugin', function() {
-    var spyEvent;
-    var stage, rect, circle, roundedRect, star, polygon, trapezium, arrow, doubleArrow;
+    var stage;
 
     beforeAll(function(done) {
         ContentEditorTestFramework.init(function() {
