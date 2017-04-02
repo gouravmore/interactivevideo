@@ -12,15 +12,44 @@ Plugin.extend({
         parentDiv.insertBefore(div, parentDiv.childNodes[0]);
         this._self = new createjs.DOMElement(div);
 
+        var timer = data.questions;
+
+		for (var key in timer) {
+			if (timer[key] == 'data') {
+				timer.splice(key, 1);
+			}
+			if (timer[key] == 'identifier') {
+				timer.splice(key, 1);
+			}
+		}
+
 		var $oVideo = jQuery('video');
+		var flag = false;
+		var a = '';
         $oVideo.bind('timeupdate', function() {
 			var video = $(this).get(0);
 			var iNow = video.currentTime;
-
-			jQuery.each(data.questions, function(key, value) {
-				if (Math.round(iNow) == value.sec) {
+			jQuery.each(timer, function(key, value) {
+				if(a != Math.round(iNow))
+				{
+					flag =false;
+				}
+				if (Math.round(iNow) == value.sec && !flag) {
 					jQuery("#custom-message").show();
-					jQuery('#custom-message').html(self.buildQuestion(value));
+
+			    	var html = [];
+			    	html.push('<div class="ui-form" id="interactivevideo-question-container"><div class="grouped-fields">');
+			    	html.push('<h2>' + value.data.name + '</h2>');
+			    	html.push('<ul>');
+			    	jQuery.each(value.data.options, function(key, val) {
+			    		html.push('<li><input type="radio" id="option'+val.value.resindex+'" name="interactivevideo-question" value="'+val.value.resvalue+'"><label for="option'+val.value.resindex+'">'+val.value.text+'</label><div class="check"></div></li>');
+			    	});
+			    	html.push('</ul>');
+			    	html.push('<p><button id="" class="button">Submit</button></p>');
+			    	html.push('</div></div>');
+
+					jQuery('#custom-message').html(html.join(''));
+
 					video.pause();
 					var elem = document.getElementById('videocover');
 					elem.addEventListener('click', function(event) {
@@ -28,6 +57,8 @@ Plugin.extend({
 						video.play();
 						jQuery("#custom-message").hide();
 
+						flag = true;
+						a = Math.round(iNow);
 						return false;
 					});
 				}
@@ -35,7 +66,7 @@ Plugin.extend({
 		});
     },
 
-    buildQuestion: function(question) {
+    _buildQuestion: function(question) {
     	console.log(question);
     	var html = [];
     	html.push('<div id="interactivevideo-question-container">');
