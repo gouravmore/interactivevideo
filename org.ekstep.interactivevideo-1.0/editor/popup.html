@@ -40,7 +40,7 @@
 				  <div class="ui horizontal divider">
 					Or
 				  </div>
-				  <div class="ui icon button">
+				  <div class="ui icon button" ng-click="generateTelemetry({type: 'click', subtype: 'select', target: 'uploadVideoFoInteractiveVideo'})">
 					Upload video here
 				  </div>
 				</div>
@@ -57,15 +57,15 @@
 			  </div>
 			  <div class="seven wide column" style="top: 61px;">
 				  <div class="ui labeled icon buttons">
-					  <button class="ui button" ng-click="play()">
+					  <button class="ui button" ng-click="play(); generateTelemetry({type: 'click', subtype: 'select', target: 'playVideo'})">
 						<i class="play icon"></i>
 						Play
 					  </button>
-					  <button class="ui button" ng-click="pause()">
+					  <button class="ui button" ng-click="pause(); generateTelemetry({type: 'click', subtype: 'select', target: 'pauseVideo'})">
 						<i class="pause icon"></i>
 						Pause
 					  </button>
-					  <button class="ui button" ng-click="add()">
+					  <button class="ui button" ng-click="add(); generateTelemetry({type: 'click', subtype: 'select', target: 'addQuestionTovideo'})">
 						<i class="add icon"></i>
 						Add Question to video
 					  </button>
@@ -83,10 +83,10 @@
 		<div class="ui grid">
 			<div class="wide column right aligned">
 				<div class="ui buttons">
-					<button class="ui orange button" ng-click="closeThisDialog()" type="button">Cancel</button>
+					<button class="ui orange button" ng-click="closeThisDialog(); generateTelemetry({type: 'click', subtype: 'close', target: 'closeInteractiveVideoPopUp'})" type="button">Cancel</button>
 					<div class="or"></div>
-					<button ng-show="isUploadVideo" class="ui blue button submit button" ng-click="next()" type="button">Next</button>
-					<button ng-show="!isUploadVideo" class="ui blue button submit button" ng-click="done(); this.closeThisDialog()" type="button">Done</button>
+					<button ng-show="isUploadVideo" class="ui blue button submit button" ng-click="next(); generateTelemetry({type: 'click', subtype: 'next', target: 'switchNextStepToAddVideo'})" type="button">Next</button>
+					<button ng-show="!isUploadVideo" class="ui blue button submit button" ng-click="done(); this.closeThisDialog(); generateTelemetry({type: 'click', subtype: 'done', target: 'addVideoToStage'})" type="button">Done</button>
 				</div>
 			</div>
 		</div>
