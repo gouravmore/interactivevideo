@@ -21,7 +21,7 @@ Plugin.extend({
         div.style.width = "100%";
         var videohtml = [];
         videohtml.push('<div id="container" align="center">');
-        videohtml.push('<video style="position:relative; z-index:-1;" width="650" height="325" autoplay>');
+        videohtml.push('<video style="position:relative; z-index:-1;" width="570" height="325" autoplay>');
         videohtml.push('<source src="'+data.video+'" type="video/mp4"/>');
         videohtml.push('</video>');
         videohtml.push('<div id="interactivevideo-question-container" style="display:none; position:relative; color: rgb(230, 200, 98);z-index:1;top: -330px; background: #000; opacity: 0.8; height: 330px; "></div>');
