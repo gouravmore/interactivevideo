@@ -44,6 +44,9 @@
         }]
     },
     "renderer": {
-        "main": "renderer/plugin.js"
+        "main": "renderer/plugin.js",
+        "dependencies": [
+            { "type": "css", "src": "renderer/assets/css/interactivevideo.css" }
+        ]
     }
 }

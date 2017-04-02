@@ -27,6 +27,7 @@ EkstepEditor.basePlugin.extend({
 						instance.attributes.questions = data;
 					});
 				});
+				break;
 
 			case 'video':
 				instance.attributes.video = value;
