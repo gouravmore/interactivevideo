@@ -11,25 +11,42 @@ Plugin.extend({
         parentDiv.insertBefore(div, parentDiv.childNodes[0]);
         this._self = new createjs.DOMElement(div);
 
+        var timer = data.questions;
+
+		for (var key in timer) {
+			if (timer[key] == 'data') {
+				timer.splice(key, 1);
+			}
+			if (timer[key] == 'identifier') {
+				timer.splice(key, 1);
+			}
+		}
+
 		var $oVideo = jQuery('video');
+		var flag = false;
+		var a = '';
         $oVideo.bind('timeupdate', function() {
 			var video = $(this).get(0);
 			var iNow = video.currentTime;
-
-			jQuery.each(data.questions, function(key, value) {
-				if (Math.round(iNow) == value.sec) {
+			jQuery.each(timer, function(key, value) {
+				if(a != Math.round(iNow))
+				{
+					flag =false;
+				}
+				if (Math.round(iNow) == value.sec && !flag) {
 					jQuery("#custom-message").show();
-				jQuery('#custom-message').html('<div class="ui form"> '+ value.data.name +'</div><button class="ui button" id="videocover">Submit</button></div>');
-				video.pause();
-				var elem = document.getElementById('videocover');
-				elem.addEventListener('click', function(event) {
-					var video = $("video").get(0);
-					video.play();
-					jQuery("#custom-message").hide();
-
-					return false;
-				});
-			}
+					jQuery('#custom-message').html('<div class="ui form"> '+ value.data.name +'</div><button class="ui button" id="videocover">Submit</button></div>');
+					video.pause();
+					var elem = document.getElementById('videocover');
+					elem.addEventListener('click', function(event) {
+						var video = $("video").get(0);
+						video.play();
+						jQuery("#custom-message").hide();
+						flag = true;
+						a = Math.round(iNow);
+						return false;
+					});
+				}
 			});
 		});
     },
