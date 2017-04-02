@@ -54,9 +54,6 @@ EkstepEditor.basePlugin.extend({
 			$scope.add = instance.add;
 			$scope.next = instance.next;
 			$scope.done = instance.done;
-			$scope.$on('ngDialog.opened', function(e, $dialog) {
-				callback();
-			});
 		};
 		EkstepEditorAPI.getService('popup').open({
 			template: 'partials_org.ekstep.interactivevideo.html',
