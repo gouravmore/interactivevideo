@@ -60,27 +60,36 @@ Plugin.extend({
 				}
 
 				if (Math.round(iNow) == value.sec && !flag) {
-					jQuery("#interactivevideo-question-container").show();
+					jQuery('#interactivevideo-question-container').show();
+					jQuery('#interactivevideo-wronganswer').hide();
 
 			    	var html = [];
 			    	html.push('<div class="ui-form"><div class="grouped-fields">');
 			    	html.push('<p>' + value.data.question + '</p>');
 			    	html.push('<ul>');
 			    	jQuery.each(value.data.options, function(key, val) {
-			    		html.push('<li><input type="radio" id="option'+val.value.resindex+'" name="interactivevideo-question" value="'+val.value.resvalue+'"><label for="option'+val.value.resindex+'">'+val.value.text+'</label><div class="check"></div></li>');
+			    		console.log(val);
+			    		html.push('<li><input type="radio" id="option'+val.value.resindex+'" name="interactivevideo-question" value="'+ ((typeof(val.answer) != 'undefined') ? 1 : 0) +'"><label for="option'+val.value.resindex+'">'+val.value.text+'</label><div class="check"></div></li>');
 			    	});
 			    	html.push('</ul>');
-			    	html.push('<p><button id="videocover">Submit</button></p>');
+			    	html.push('<p><button id="interactivevideo-submit">Submit</button></p>');
+			    	html.push('<p style="display:none" id="interactivevideo-wronganswer">Wrong answer. Please try again</p>');
 			    	html.push('</div></div>');
 
 					jQuery('#interactivevideo-question-container').html(html.join(''));
 
 					video.pause();
-					var elem = document.getElementById('videocover');
-					elem.addEventListener('click', function(event) {
+					//var elem = document.getElementById('videocover');
+					jQuery('#interactivevideo-submit').on('click', function(event) {
 						var video = $("video").get(0);
-						video.play();
-						jQuery("#interactivevideo-question-container").hide();
+						var selected_answer = jQuery("input[name='interactivevideo-question']:checked").val();
+						console.log(selected_answer);
+						if (selected_answer == 1) {
+							video.play();
+							jQuery("#interactivevideo-question-container").hide();							
+						} else {
+							jQuery('#interactivevideo-wronganswer').show();
+						}
 
 						flag = true;
 						a = Math.round(iNow);
