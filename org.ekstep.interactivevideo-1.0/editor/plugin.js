@@ -1,8 +1,8 @@
 EkstepEditor.basePlugin.extend({
     initialize: function() {
-		//~ var templatePath = EkstepEditorAPI.resolvePluginResource(this.manifest.id, this.manifest.ver, "editor/popup.html");
-		//~ EkstepEditorAPI.getService('popup').loadNgModules(templatePath);
-		// EkstepEditorAPI.addEventListener(this.manifest.id + ":showPopup", this.openAssessmentBrowser, this);
+		var templatePath = EkstepEditorAPI.resolvePluginResource(this.manifest.id, this.manifest.ver, "editor/popup.html");
+		EkstepEditorAPI.getService('popup').loadNgModules(templatePath);
+		EkstepEditorAPI.addEventListener(this.manifest.id + ":showPopup", this.openInteractivevideoBrowser, this);
     },
     newInstance: function() {
 		//this.openInteractivevideoBrowser(this);
@@ -44,25 +44,76 @@ EkstepEditor.basePlugin.extend({
      *
      */
     openInteractivevideoBrowser: function(event, callback) {
-		//~ var instance = this;
-		//~ var modalController = function($scope) {
-            //~ $scope.$on('ngDialog.opened', function(e, $dialog) {
-                //~ callback();
-            //~ });
-        //~ };
-		//~ EkstepEditorAPI.getService('popup').open({
-            //~ template: 'partials_org.ekstep.interactivevideo.html',
-            //~ controller: ['$scope', modalController],
-            //~ showClose: false,
-            //~ width: 900,
-            //~ className: 'ngdialog-theme-default'
-        //~ });
-        //~ var instance = this;
-        //~ var callback = function(items, config) {
-			//~ alert(items);
-            //~ var assessmentData = { items: items, config: config };
-            //~ EkstepEditorAPI.dispatchEvent(instance.manifest.id + ':renderQuiz', assessmentData);
-        //~ };
-        //~ EkstepEditorAPI.dispatchEvent("org.ekstep.assessmentbrowser:show", callback);
-    }
+		var instance = this;
+		instance.isUploadVideo = true;
+		//EkstepEditorAPI.ngSafeApply(EkstepEditorAPI.getAngularScope());
+		var modalController = function($scope) {
+			$scope.isUploadVideo = instance.isUploadVideo;
+			$scope.play = instance.play;
+			$scope.pause = instance.pause;
+			$scope.add = instance.add;
+			$scope.next = instance.next;
+			$scope.done = instance.done;
+			$scope.$on('ngDialog.opened', function(e, $dialog) {
+				callback();
+			});
+		};
+		EkstepEditorAPI.getService('popup').open({
+			template: 'partials_org.ekstep.interactivevideo.html',
+			controller: ['$scope', modalController],
+			showClose: false,
+			width: 900,
+			className: 'ngdialog-theme-default'
+		});
+    },
+    play: function(){
+		var $oVideo = jQuery('video');
+		$oVideo.get(0).play();
+        $oVideo.bind('timeupdate', function() {
+			var video = $(this).get(0);
+			var iNow = video.currentTime;
+		});
+	},
+	pause: function(){
+		var $oVideo = jQuery('video');
+		$oVideo.get(0).pause();
+        $oVideo.bind('timeupdate', function() {
+			var video = $(this).get(0);
+			var iNow = video.currentTime;
+		});
+	},
+	add: function(){
+		var $oVideo = jQuery('video');
+		var iNow = $oVideo.currentTime();
+		alert(iNow);
+	},
+	next: function(){
+		var instance = this;
+		instance.isUploadVideo = false;
+		EkstepEditorAPI.ngSafeApply(EkstepEditorAPI.getAngularScope());
+	},
+	done: function(){
+		var instance = EkstepEditorAPI.getCurrentObject();
+        var editorObj = instance.editorObj;
+
+		var value = jQuery("#questionJson").val();
+
+		var data = [];
+		jQuery.each(JSON.parse(value), function( key, val ) {
+			var queObj = {};
+			queObj.sec = val.sec;
+			queObj.identifier = val.identifier;
+
+			EkstepEditorAPI.getService('assessment').getItem(val.identifier, function(err, resp) {
+				queObj.data = resp.data.result.assessment_item;
+				data.push(queObj);
+				instance.attributes.questions = data;
+			});
+		});
+
+		instance.attributes.video = jQuery("#videoSrc").val();
+
+        EkstepEditorAPI.render();
+        EkstepEditorAPI.dispatchEvent('object:modified', { target: EkstepEditorAPI.getEditorObject() });
+	}
 });

@@ -1,0 +1,85 @@
+<script type="text/ng-template" id="partials_org.ekstep.interactivevideo.html">
+	<div class="ui three top attached steps">
+	  <div class="{{isUploadVideo ? 'active': ''}} step">
+		<i class="film icon"></i>
+		<div class="content">
+		  <div class="title">Insert video link</div>
+		  <div class="description">Insert your video link</div>
+		</div>
+	  </div>
+	  <div class="{{!isUploadVideo ? 'active': ''}} step">
+		<i class="browser icon"></i>
+		<div class="content">
+		  <div class="title">Add Question</div>
+		  <div class="description">Select your question</div>
+		</div>
+	  </div>
+	  <div class="step">
+		<i class="youtube play icon"></i>
+		<div class="content">
+		  <div class="title">Video is ready</div>
+		  <div class="description">Add video to canvas</div>
+		</div>
+	  </div>
+	</div>
+	<div class="ui form" id="colInviteForm">
+		<div ng-show="isUploadVideo" class="filters-container">
+			<div class="field">
+				<div class="ui center aligned basic segment">
+				  <div class="ui left icon action input">
+					<i class="paste icon"></i>
+					<input name="videoSrc" id="videoSrc" type="text" placeholder="Insert video link here">
+				  </div>
+				  <div class="ui horizontal divider">
+					Or
+				  </div>
+				  <div class="ui icon button">
+					Upload video here
+				  </div>
+				</div>
+			</div>
+		</div>
+		<div ng-show="!isUploadVideo" class="filters-container">
+			<div class="ui grid">
+			  <div class="five wide column">
+				<video width="350" height="320">
+					<source src="http://www.quirksmode.org/html5/videos/big_buck_bunny.mp4" type="video/mp4">
+					Your browser does not support the video tag.
+				</video>
+			  </div>
+			  <div class="seven wide column" style="top: 61px;">
+				  <div class="ui labeled icon buttons">
+					  <button class="ui button" ng-click="play()">
+						<i class="play icon"></i>
+						Play
+					  </button>
+					  <button class="ui button" ng-click="pause()">
+						<i class="pause icon"></i>
+						Pause
+					  </button>
+					  <button class="ui button" ng-click="add()">
+						<i class="add icon"></i>
+						Add Question to video
+					  </button>
+					</div>
+					<div class="field">
+						<label for="questionJson">Questions</label>
+						<textarea type="textarea" name="questionJson" id="questionJson"></textarea>
+					</div>
+			  </div>
+			</div>
+		</div>
+	</div>
+	<div class="actions">
+		<div class="ui grid">
+			<div class="wide column right aligned">
+				<div class="ui buttons">
+					<button class="ui orange button" ng-click="closeThisDialog()" type="button">Cancel</button>
+					<div class="or"></div>
+					<button ng-show="isUploadVideo" class="ui blue button submit button" ng-click="next()" type="button">Next</button>
+					<button ng-show="!isUploadVideo" class="ui blue button submit button" ng-click="done(); this.closeThisDialog()" type="button">Done</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
