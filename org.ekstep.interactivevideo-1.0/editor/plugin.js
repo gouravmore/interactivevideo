@@ -44,13 +44,15 @@ EkstepEditor.basePlugin.extend({
      */
     openInteractivevideoBrowser: function(event, callback) {
 		var instance = this;
-		instance.isUploadVideo = false;
+		instance.isUploadVideo = true;
 		//EkstepEditorAPI.ngSafeApply(EkstepEditorAPI.getAngularScope());
 		var modalController = function($scope) {
 			$scope.isUploadVideo = instance.isUploadVideo;
 			$scope.play = instance.play;
 			$scope.pause = instance.pause;
 			$scope.add = instance.add;
+			$scope.next = instance.next;
+			$scope.done = instance.done;
 			$scope.$on('ngDialog.opened', function(e, $dialog) {
 				callback();
 			});
@@ -83,5 +85,34 @@ EkstepEditor.basePlugin.extend({
 		var $oVideo = jQuery('video');
 		var iNow = $oVideo.currentTime();
 		alert(iNow);
+	},
+	next: function(){
+		var instance = this;
+		instance.isUploadVideo = false;
+		EkstepEditorAPI.ngSafeApply(EkstepEditorAPI.getAngularScope());
+	},
+	done: function(){
+		var instance = EkstepEditorAPI.getCurrentObject();
+        var editorObj = instance.editorObj;
+
+		var value = jQuery("#questionJson").val();
+
+		var data = [];
+		jQuery.each(JSON.parse(value), function( key, val ) {
+			var queObj = {};
+			queObj.sec = val.sec;
+			queObj.identifier = val.identifier;
+
+			EkstepEditorAPI.getService('assessment').getItem(val.identifier, function(err, resp) {
+				queObj.data = resp.data.result.assessment_item;
+				data.push(queObj);
+				instance.attributes.questions = data;
+			});
+		});
+
+		instance.attributes.video = jQuery("#videoSrc").val();
+
+        EkstepEditorAPI.render();
+        EkstepEditorAPI.dispatchEvent('object:modified', { target: EkstepEditorAPI.getEditorObject() });
 	}
 });

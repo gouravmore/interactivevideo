@@ -62,15 +62,10 @@
 						Add Question to video
 					  </button>
 					</div>
-				<div class="field">
-					<label for="colUsersDropdown"></label>
-					<div class="ui fluid multiple search selection dropdown" id="colUsersDropdown" name="colUsersDropdown" data-validate="colUsersDropdown" >
-					 <input type="hidden" name="inviteUsers" id="inviteUsers">
-					 <i class="search icon"></i>
-						<input class="search">
-							<div class="default text">Search...</div>
+					<div class="field">
+						<label for="questionJson">Questions</label>
+						<textarea type="textarea" name="questionJson" id="questionJson"></textarea>
 					</div>
-				</div>
 			  </div>
 			</div>
 		</div>
@@ -81,7 +76,8 @@
 				<div class="ui buttons">
 					<button class="ui orange button" ng-click="closeThisDialog()" type="button">Cancel</button>
 					<div class="or"></div>
-					<button class="ui blue button submit button" ng-click="sendInvites()" type="button">Send Invites</button>
+					<button ng-show="isUploadVideo" class="ui blue button submit button" ng-click="next()" type="button">Next</button>
+					<button ng-show="!isUploadVideo" class="ui blue button submit button" ng-click="done(); this.closeThisDialog()" type="button">Done</button>
 				</div>
 			</div>
 		</div>
