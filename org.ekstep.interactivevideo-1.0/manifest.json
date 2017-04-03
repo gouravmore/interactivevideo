@@ -28,14 +28,14 @@
             "title": "Video Link",
             "description": "Add video link",
             "dataType": "input",
-            "valueType":"text",
+            "valueType": "text",
             "required": true
-        },{
+        }, {
             "propertyName": "questions",
             "title": "Questions",
             "description": "Add Questions",
             "dataType": "textarea",
-            "valueType":"text",
+            "valueType": "text",
             "required": true
         }]
     },

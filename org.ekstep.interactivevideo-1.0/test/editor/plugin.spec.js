@@ -16,4 +16,14 @@ describe('Interactivevideo plugin', function() {
             expect(stage.isUploadVideo).toBeFalsy();
         });
     });
+
+    describe('should show interacive video popup', function() {
+        it('On load first step should be shown', function() {
+            // Test Rectangle
+            stage.openInteractivevideoBrowser();
+            expect(stage.isUploadVideo).toBeTruthy();
+        });
+    });
+
+
 });
