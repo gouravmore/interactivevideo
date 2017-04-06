@@ -13,6 +13,7 @@ EkstepEditor.basePlugin.extend({
      * Registers events.
      * @memberof interactivevideo
      */
+    currentInstance: undefined,
     initialize: function() {
         var templatePath = EkstepEditorAPI.resolvePluginResource(this.manifest.id, this.manifest.ver, "editor/popup.html");
         EkstepEditorAPI.getService('popup').loadNgModules(templatePath);
@@ -24,9 +25,8 @@ EkstepEditor.basePlugin.extend({
      * @memberof interactivevideo
      */
     newInstance: function() {
-        /**Create object on stage**/
         var props = this.convertToFabric(this.attributes);
-        this.editorObj = new fabric.Rect({ top: 5, left: 20, width: 600, height: 380, fill: '#999999' });
+        this.editorObj = new fabric.Rect({ top: 5, left: 20, width: 600, height: 380, fill: '#999' });
         if (this.editorObj) this.editorObj.setStroke(props.stroke);
     },
     /**
@@ -73,6 +73,7 @@ EkstepEditor.basePlugin.extend({
     openInteractivevideoBrowser: function(event, callback) {
         var instance = this;
         instance.isUploadVideo = true;
+        instance.isVideoSrc = true;
         var modalController = function($scope) {
             $scope.isUploadVideo = instance.isUploadVideo;
             $scope.play = instance.play;
@@ -80,6 +81,9 @@ EkstepEditor.basePlugin.extend({
             $scope.add = instance.add;
             $scope.next = instance.next;
             $scope.done = instance.done;
+            $scope.isVideoSrc = instance.isVideoSrc;
+            $scope.redirectToUploadVideo = instance.redirectToUploadVideo;
+            $scope.currentVideoTime = instance.currentVideoTime;
         };
         EkstepEditorAPI.getService('popup').open({
             template: 'partials_org.ekstep.interactivevideo.html',
@@ -124,9 +128,12 @@ EkstepEditor.basePlugin.extend({
      *
      */
     add: function() {
-        var $oVideo = jQuery('video');
-        var iNow = $oVideo.currentTime();
-        alert(iNow);
+        var instance = this;
+        var x = document.getElementById("questionVideo");
+        setTimeout(function() {
+            jQuery(".question-repeatable-container input:last").val(x.currentTime);
+            EkstepEditorAPI.ngSafeApply(EkstepEditorAPI.getAngularScope());
+        }, 1000);
     },
     /**
      *
@@ -136,8 +143,33 @@ EkstepEditor.basePlugin.extend({
      */
     next: function() {
         var instance = this;
-        instance.isUploadVideo = false;
+        if (jQuery("#videoSrc").val() != '') {
+            instance.isUploadVideo = false;
+            jQuery('#testVideo video source').attr('src', jQuery("#videoSrc").val());
+            jQuery("#testVideo video")[0].load();
+
+            jQuery(".question-repeatable-container").repeatable({
+                template: '<div class="field"><label for="videoQuestion[]">Question no {?}.</label><input type="text" name="videoquestion[]" style="width: 40%; margin-bottom: 5px;"/> <input type="text" name="videoTime[]" style="width: 39%;margin-bottom: 5px;"/></div>',
+                max: 10,
+                startWith: 0,
+                addTrigger: '.addQuestions',
+                deleteTrigger: ".deleteQuestions",
+
+            });
+        } else {
+            instance.isVideoSrc = false;
+        }
         EkstepEditorAPI.ngSafeApply(EkstepEditorAPI.getAngularScope());
+    },
+    /**
+     *   redirect to upload video page
+     *   @memberof interactivevideo
+     */
+    redirectToUploadVideo: function() {
+        window.open(
+            'https://vimeo.com/upload',
+            '_blank'
+        );
     },
     /**
      *
@@ -146,28 +178,55 @@ EkstepEditor.basePlugin.extend({
      *
      */
     done: function() {
-        var instance = EkstepEditorAPI.getCurrentObject();
-        var editorObj = instance.editorObj;
-
-        var value = jQuery("#questionJson").val();
-
         var data = [];
-        jQuery.each(JSON.parse(value), function(key, val) {
+        var quetionsData = [];
+        jQuery('input:text[name^="videoquestion[]"]').each(function() {
+            quetionsData.push(jQuery(this).val());
+        });
+
+        var secData = [];
+        jQuery('input:text[name^="videoTime[]"]').each(function() {
+            secData.push(jQuery(this).val());
+        });
+
+        var allData = [];
+        var i = 0;
+        jQuery.each(quetionsData, function(key, val) {
+            var que = {};
+            que.sec = secData[i];
+            que.identifier = quetionsData[i];
+            allData.push(que);
+            i++;
+        });
+
+        var i = 0;
+        jQuery.each(allData, function(key, val) {
+            i++;
             var queObj = {};
-            queObj.sec = val.sec;
+            queObj.sec = Math.round(val.sec);
             queObj.identifier = val.identifier;
 
             EkstepEditorAPI.getService('assessment').getItem(val.identifier, function(err, resp) {
                 queObj.data = resp.data.result.assessment_item;
                 data.push(queObj);
-                instance.attributes.questions = data;
             });
+            if (i == allData.length) {
+                EkstepEditorAPI.dispatchEvent("org.ekstep.interactivevideo:create", {
+                    "video": jQuery("#videoSrc").val(),
+                    "questions": data
+                });
+            }
         });
-
-        instance.attributes.video = jQuery("#videoSrc").val();
-
-        EkstepEditorAPI.render();
-        EkstepEditorAPI.dispatchEvent('object:modified', { target: EkstepEditorAPI.getEditorObject() });
+    },
+    /**
+     * This method overridden from Ekstepeditor.basePlugin and it will provide the config of this plugin
+     * @memberof poptext
+     */
+    getConfig: function() {
+        var config = {};
+        config.video = this.attributes.video;
+        config.questions = JSON.stringify(this.attributes.questions);
+        return config;
     },
     /**
      *
@@ -179,3 +238,4 @@ EkstepEditor.basePlugin.extend({
         if (data) EkstepEditorAPI.getService('telemetry').interact({ "type": data.type, "subtype": data.subtype, "target": data.target, "pluginid": instance.manifest.id, "pluginver": instance.manifest.ver, "objectid": "", "stage": EkstepEditorAPI.getCurrentStage().id })
     }
 });
+//# sourceURL=interactivevideo.js

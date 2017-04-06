@@ -1,13 +1,13 @@
 {
     "id": "org.ekstep.interactivevideo",
     "ver": "1.0",
-    "author": "",
-    "type": "widget",
-    "title": "interactivevideo Plugin",
-    "description": "",
+    "author": "Gourav More",
+    "title": "The interactive video Plugin",
+    "description": "The interactive video to add questions to the video",
     "publishedDate": "",
     "editor": {
         "main": "editor/plugin.js",
+        "dependencies": [{ "type": "js", "src": "editor/libs/jquery.repeatable.js" }],
         "menu": [{
             "id": "interactivevideo",
             "category": "main",

@@ -30,17 +30,17 @@
     <div class="ui form">
         <!-- First step to add/uplpad video link-->
         <div ng-show="isUploadVideo" class="filters-container">
-            <div class="field">
+            <div class="field {{!isVideoSrc ? 'error': ''}}">
                 <div class="ui center aligned basic segment">
-                    <div class="ui left icon action input">
+                    <div class="ui left icon input">
                         <i class="paste icon"></i>
-                        <input name="videoSrc" id="videoSrc" type="text" placeholder="Insert video link here">
+                        <input name="videoSrc" id="videoSrc" type="text" placeholder="Insert video link here" />
                     </div>
                     <div class="ui horizontal divider">
                         Or
                     </div>
-                    <div class="ui icon button" ng-click="generateTelemetry({type: 'click', subtype: 'select', target: 'uploadVideoFoInteractiveVideo'})">
-                        Upload video here
+                    <div class="ui icon button" ng-click="redirectToUploadVideo(); generateTelemetry({type: 'click', subtype: 'select', target: 'uploadVideoFoInteractiveVideo'})">
+                        To upload video here
                     </div>
                 </div>
             </div>
@@ -48,12 +48,13 @@
         <!-- Second step to insert questions-->
         <div ng-show="!isUploadVideo" class="filters-container">
             <div class="ui grid">
-                <div class="five wide column">
-                    <video width="350" height="320">
-                        <source src="http://www.quirksmode.org/html5/videos/big_buck_bunny.mp4" type="video/mp4"> Your browser does not support the video tag.
+                <div class="five wide column" id="testVideo">
+                    <video width="350" height="320" id="questionVideo" controls>
+                        <source src="" type="video/mp4"> Your browser does not support the video tag.
                     </video>
                 </div>
                 <div class="seven wide column" style="top: 61px;">
+                    {{instance.currentVideoTime}}
                     <div class="ui labeled icon buttons">
                         <button class="ui button" ng-click="play(); generateTelemetry({type: 'click', subtype: 'select', target: 'playVideo'})">
                             <i class="play icon"></i> Play
@@ -61,14 +62,11 @@
                         <button class="ui button" ng-click="pause(); generateTelemetry({type: 'click', subtype: 'select', target: 'pauseVideo'})">
                             <i class="pause icon"></i> Pause
                         </button>
-                        <button class="ui button" ng-click="add(); generateTelemetry({type: 'click', subtype: 'select', target: 'addQuestionTovideo'})">
+                        <button class="ui button addQuestions" ng-click="add(); generateTelemetry({type: 'click', subtype: 'select', target: 'addQuestionTovideo'})">
                             <i class="add icon"></i> Add Question to video
                         </button>
                     </div>
-                    <div class="field">
-                        <label for="questionJson">Questions</label>
-                        <textarea type="textarea" name="questionJson" id="questionJson"></textarea>
-                    </div>
+                    <div class="question-repeatable-container" style="padding-top: 10px;"></div>
                 </div>
             </div>
         </div>
