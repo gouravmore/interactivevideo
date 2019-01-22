@@ -3,7 +3,7 @@
 Just set up the plugin as usual. Once you add the plugin, a new menu icon will be available. Click the icon to add the video. 
 
 ## Step 1
-Add the link to the video. Currently mp4 files are supported. Future versions will integrate a javascript library that will allow embedding youtube, vimeo etc videos.
+Add the link to the video. Currently mp4 files are supported. Future versions will integrate a javascript library that will allow embedding youtube, vimeo etc videos. exp:- http://www.quirksmode.org/html5/videos/big_buck_bunny.mp4
 
 ## Step 2
 Add the JSON to indicate the points in your video when questions are shown. The JSON should have the following structure
